@@ -1,0 +1,42 @@
+Subject: [PATCH] Modify talents point acquisition.
+---
+Index: src/server/game/Entities/Player/Player.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/server/game/Entities/Player/Player.cpp b/src/server/game/Entities/Player/Player.cpp
+--- a/src/server/game/Entities/Player/Player.cpp	(revision c793c5b954e708e11a02319ee302c2ce90509e2d)
++++ b/src/server/game/Entities/Player/Player.cpp	(date 1675291003832)
+@@ -13496,25 +13496,15 @@
+ 
+ uint32 Player::CalculateTalentsPoints() const
+ {
+-    uint32 base_talent = GetLevel() < 10 ? 0 : GetLevel() - 9;
+-
+-    uint32 talentPointsForLevel = 0;
+-    if (getClass() != CLASS_DEATH_KNIGHT || GetMapId() != 609)
+-    {
+-        talentPointsForLevel = base_talent;
+-    }
+-    else
+-    {
+-        talentPointsForLevel = GetLevel() < 56 ? 0 : GetLevel() - 55;
+-        talentPointsForLevel += m_questRewardTalentCount;
++    uint32 base_talent = GetLevel() < 5 ? 0 : GetLevel() - 4;
++    uint32 talentPointsForLevel = m_questRewardTalentCount;
+ 
+-        if (talentPointsForLevel > base_talent)
+-        {
+-            talentPointsForLevel = base_talent;
+-        }
++    if (talentPointsForLevel > base_talent)
++    {
++        talentPointsForLevel = base_talent;
+     }
+-
+     talentPointsForLevel += m_extraBonusTalentCount;
++
+     return uint32(talentPointsForLevel * sWorld->getRate(RATE_TALENT));
+ }
+ 
