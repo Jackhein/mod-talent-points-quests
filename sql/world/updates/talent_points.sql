@@ -1,9 +1,11 @@
-#Group or Dungeon or Classes quest
-select ID from quest_template WHERE QuestInfoID=(1 or 81);
-#Raid quest
-select ID from quest_template WHERE QuestInfoID=62;
-
-#Final quest
-SELECT ID FROM quest_template_addon WHERE PrevQuestID!=0 AND NextQuestID=0;
-SELECT ID, RewardTalents FROM quest_template WHERE ID IN (SELECT ID FROM quest_template_addon WHERE PrevQuestID!=0 AND NextQuestID=0) AND RewardNextQuest=0 AND Flags!=4096;
-
+USE acore_world;
+-- talent point reward for class/group/dungeon unrepeatable quests
+UPDATE `quest_template`
+SET `RewardTalents` = 1
+WHERE `RewardTalents` = 0 AND `QuestType` != 1 AND ID IN (SELECT ID FROM quest_template_addon WHERE SpecialFlags%2!=1)
+AND (QuestSortID IN (-61, -81, -82, -141, -161, -162, -261, -262, -263, -372) OR QuestInfoID IN (1, 81));
+-- talent points reward for raid unrepeatable quests
+UPDATE `quest_template`
+SET `RewardTalents` = 2
+WHERE `RewardTalents` = 0 AND `QuestType` != 1 AND ID IN (SELECT ID FROM quest_template_addon WHERE SpecialFlags%2!=1)
+AND QuestInfoID=62;
