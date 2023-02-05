@@ -1,25 +1,38 @@
-# SKELETON - Module template
+# Talent points module
+[English](README.md) | [Français](README_FR.md)
 
-[English](README.md) | [Español](README_ES.md)
+### Description
+
+Modify talent points reward system.\
+Now give 1 point by class, group and dungeon quests. 2 points for raid ones.\
+Can collect up to 5 more points than usual until level max.
+
+### How to implement
+
+###### Get project
+Clone project within modules folder under then name `mod-talent-points`.
+
+###### Modify talent points acquisition
+From now on, I'll consider we're currently in root of your warcraft server project.\
+Apply git patch by typing following command :\
+`git apply --ignore-space-change --ignore-whitespace modules/mod-talent-points/player.patch`
+
+Or modify directly `src/server/game/Entities/Player/Player.cpp` with you favorite editor
+and apply modification seen in `modules/mod-talent-points/player.patch`.
+
+###### Modify DB quests
+Apply request seen in sql files under `modules/mod-talent-points/sql/world/updates` folder.
+
+Here one command I use often to implement directly multiple sql files:  
+`for sql in $(find modules/MODULE_FOLDER/data/sql/*world*/ -type f -name '*.sql'); do mysql -uUSERDB -hHOSTDB -Dacore_world -p < ${sql}; done`
+
+###### Recompile and that all.
 
 
-## How to create your own module
+### Credits
 
-1. Use the script `create_module.sh` located in [`modules/`](https://github.com/azerothcore/azerothcore-wotlk/tree/master/modules) to start quickly with all the files you need and your git repo configured correctly (heavily recommended).
-1. You can then use these scripts to start your project: https://github.com/azerothcore/azerothcore-boilerplates
-1. Do not hesitate to compare with some of our newer/bigger/famous modules.
-1. Edit the `README.md` and other files (`include.sh` etc...) to fit your module. Note: the README is automatically created from `README_example.md` when you use the script `create_module.sh`.
-1. Publish your module to our [catalogue](https://github.com/azerothcore/modules-catalogue).
+* [Jackhein](https://github.com/Jackhein) (author of this module)
+* [Miorey](https://github.com/Miorey/)
 
-
-## How to test your module?
-
-Disable PCH (precompiled headers) and try to compile. To disable PCH, set `-DNOPCH=1` with Cmake (more info [here](http://www.azerothcore.org/wiki/CMake-options)).
-
-If you forgot some headers, it is time to add them!
-
-## Licensing
-
-The default license of the skeleton-module template is the MIT but you can use a different license for your own modules.
-
-So modules can also be kept private. However, if you need to add new hooks to the core, as well as improving existing ones, you have to share your improvements because the main core is released under the AGPL license. Please [provide a PR](https://www.azerothcore.org/wiki/How-to-create-a-PR) if that is the case.
+Our server [MurlocVillage](https://wotlk.murlocvillage.com/fr/)\
+&nbsp;Thanks to [AzerothCore](http://azerothcore.org/)
